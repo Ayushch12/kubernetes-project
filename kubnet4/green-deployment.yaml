@@ -1,0 +1,75 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: green-deployment
+# spec:
+#   replicas: 3
+#   selector:
+#     matchLabels:
+#       app: green-app
+#   template:
+#     metadata:
+#       labels:
+#         app: green-app
+#     spec:
+#       containers:
+#       - name: nginx-container
+#         image: nginx
+#         volumeMounts:
+#         - name: html-volume
+#           mountPath: /usr/share/nginx/html
+#       - name: configmap-reload
+#         image: jimmidyson/configmap-reload:v0.5.0
+#         env:
+#         - name: CONFIGS
+#           value: "/etc/nginx/conf.d/default.conf"
+#         - name: PAUSE
+#           value: "1"
+#       tolerations:
+#       - key: node-role.kubernetes.io/control-plane
+#         effect: NoSchedule
+#       volumes:
+#       - name: html-volume
+#         configMap:
+#           name: green-html-config
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: green-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: green-app
+  template:
+    metadata:
+      labels:
+        app: green-app
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx
+        volumeMounts:
+        - name: html-volume
+          mountPath: /usr/share/nginx/html
+      tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule
+      volumes:
+      - name: html-volume
+        persistentVolumeClaim:
+          claimName: html-volume-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: green-service
+spec:
+  selector:
+    app: green-app
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 80
+  type: NodePort

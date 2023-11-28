@@ -1,0 +1,15 @@
+# green-pv.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: html-volume
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /path/to/your/html/content  # Update this path to the correct location on your host machine
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard

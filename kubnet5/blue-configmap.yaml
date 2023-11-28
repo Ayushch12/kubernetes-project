@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: blue-config
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Hello Blue</title>
+    </head>
+    <body>
+      <h1>Hello Blue - Ayush Chalise</h1>
+    </body>
+    </html>

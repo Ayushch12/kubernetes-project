@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: myjob
+spec:
+  template:
+    spec:
+      containers:
+      - name: myjob
+        image: busybox
+        command: ["sh", "-c", "echo 'Estiam' && sleep 10"]
+      restartPolicy: Never
+      tolerations:
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+        effect: "NoSchedule"
+  backoffLimit: 6
+  completions: 2
+  parallelism: 1
+  ttlSecondsAfterFinished: 10

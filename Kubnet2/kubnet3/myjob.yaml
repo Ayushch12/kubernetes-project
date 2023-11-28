@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: estiam-job
+  namespace: estiam-tp
+spec:
+  template:
+    spec:
+      containers:
+      - name: estiam-container
+        image: busybox
+        command: ["sh", "-c", "echo 'Hello Estiam' && sleep 10"]
+      restartPolicy: OnFailure
+  backoffLimit: 6
+  completions: 2
+  parallelism: 1

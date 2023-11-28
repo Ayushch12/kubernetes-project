@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: green-html-config
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Hello Green - Ayush Chalise</title>
+    </head>
+    <body>
+      <h1>Hello Green - Ayush Chalise</h1>
+    </body>
+    </html>
